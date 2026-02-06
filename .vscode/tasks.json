@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Apply Migrations",
+      "type": "shell",
+      "command": "cd mysite && python manage.py makemigrations && python manage.py migrate"
+    },
+    {
+      "label": "Run Server",
+      "type": "shell",
+      "command": "cd mysite; python manage.py runserver",
+      "isBackground": true
+    }
+  ]
+}

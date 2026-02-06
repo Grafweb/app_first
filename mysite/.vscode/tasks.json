@@ -1,0 +1,10 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Apply Migrations",
+			"type": "shell",
+			"command": "python manage.py makemigrations && python manage.py migrate"
+		}
+	]
+}

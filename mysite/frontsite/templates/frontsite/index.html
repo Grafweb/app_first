@@ -1,0 +1,27 @@
+{% load component_tags %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+  </head>
+  <body class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4 py-16">
+      <h1 class="text-4xl font-bold mb-4">Welcome to My Portfolio</h1>
+      <p class="text-gray-300">This is your Django + Tailwind starter!</p>
+      <button
+        hx-get="/hello"
+        hx-target="#result"
+        class="bg-blue-500 px-4 py-2 rounded"
+      >
+        Click Me
+      </button>
+      <div id="result"></div>
+      {% component "button" text="Click me" variant="primary" %} {% endcomponent
+      %}
+    </div>
+  </body>
+</html>
