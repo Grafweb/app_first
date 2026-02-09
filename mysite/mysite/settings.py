@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_components',
     'frontsite',
+    'crispy_forms',
+    'crispy_tailwind',
 ]
 
 STATICFILES_FINDERS = [
@@ -145,3 +147,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"
+
+# Email settings (prints emails to console for testing)
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Example for Gmail (requires an App Password)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your_email@gmail.com'  # Put your actual Gmail address here
+EMAIL_HOST_PASSWORD = 'your_app_password' # Put your 16-char App Password here
