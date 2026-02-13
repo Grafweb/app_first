@@ -96,7 +96,6 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 COMPONENTS = {
     "dirs": [
-        BASE_DIR / "components",  # Project-level componentss
         BASE_DIR / "frontsite" / "components",  # App-level components
     ],
 }

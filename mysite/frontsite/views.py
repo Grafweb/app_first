@@ -11,6 +11,9 @@ def hello(request):
     return render(request, 'frontsite/partials/hello.html')
 
 def contact(request):
+    return render(request, 'frontsite/contact.html')
+
+def contact_form(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
