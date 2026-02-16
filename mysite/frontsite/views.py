@@ -11,21 +11,30 @@ def hello(request):
     return render(request, 'frontsite/partials/hello.html')
 
 def contact(request):
-    return render(request, 'frontsite/contact.html')
+    context = _handle_contact_form(request)
+    return render(request, 'frontsite/contact.html', context)
 
 def contact_form(request):
+    context = _handle_contact_form(request)
+    return render(request, 'frontsite/partials/contact-form.html', context)
+
+def _handle_contact_form(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            # Send email
             send_mail(
                 subject=f"Message from {form.cleaned_data['name']}",
                 message=form.cleaned_data['message'],
                 from_email=form.cleaned_data['email'],
-                recipient_list=['your_email@gmail.com'],  # Replace with the email you want to receive messages at
+                recipient_list=['your_email@gmail.com'],
             )
-            # Reset form and indicate success
-            return render(request, 'frontsite/partials/contact.html', {'form': ContactForm(), 'success': True})
+            return {'form': ContactForm(), 'success': True}
     else:
         form = ContactForm()
-    return render(request, 'frontsite/partials/contact.html', {'form': form})
+    return {'form': form}
+
+def menu(request):
+    return render(request, 'frontsite/partials/menu.html')
+
+def mobile_menu(request):
+    return render(request, 'frontsite/partials/mobile-menu.html')

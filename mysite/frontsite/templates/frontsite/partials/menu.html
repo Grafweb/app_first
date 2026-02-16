@@ -1,0 +1,32 @@
+<nav class="bg-gray-800 shadow-lg">
+  <div class="container mx-auto px-4 flex justify-between items-center py-4">
+    <a
+      href="{% url 'index' %}"
+      class="text-xl font-bold hover:text-blue-400 transition"
+      >My Portfolio</a
+    >
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex space-x-6">
+      <a href="{% url 'index' %}" class="hover:text-blue-400 transition"
+        >Home</a
+      >
+      <a href="{% url 'contact' %}" class="hover:text-blue-400 transition"
+        >Contact</a
+      >
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button
+      hx-get="{% url 'mobile-menu' %}"
+      hx-target="#mobile-menu"
+      hx-swap="innerHTML"
+      class="md:hidden text-2xl focus:outline-none hover:text-blue-400 transition"
+    >
+      &#9776;
+    </button>
+  </div>
+
+  <!-- Mobile dropdown -->
+  <div id="mobile-menu" class="md:hidden px-4 pb-4 space-y-2"></div>
+</nav>
