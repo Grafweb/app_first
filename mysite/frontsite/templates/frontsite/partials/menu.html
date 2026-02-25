@@ -11,6 +11,11 @@
       <a href="{% url 'index' %}" class="hover:text-blue-400 transition"
         >Home</a
       >
+      {% for page in menu_pages %}
+      <a href="{{ page.get_absolute_url }}" class="hover:text-blue-400 transition"
+        >{{ page.title }}</a
+      >
+      {% endfor %}
       <a href="{% url 'contact' %}" class="hover:text-blue-400 transition"
         >Contact</a
       >

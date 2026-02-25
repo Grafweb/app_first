@@ -1,0 +1,29 @@
+{% extends "frontsite/base.html" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-10 px-4">
+  {% if page.featured_image %}
+  <img
+    src="{{ page.featured_image.url }}"
+    alt="{{ page.title }}"
+    class="w-full h-64 object-cover rounded-lg mb-8"
+  />
+  {% endif %}
+
+  <h1 class="text-4xl font-bold mb-4">{{ page.title }}</h1>
+
+  {% if page.meta_description %}
+  <p class="text-gray-400 mb-6">{{ page.meta_description }}</p>
+  {% endif %}
+
+  <div class="prose prose-invert max-w-none text-gray-300 leading-relaxed whitespace-pre-line">
+    {{ page.content }}
+  </div>
+
+  <p class="text-gray-500 text-sm mt-10">
+    Last updated: {{ page.updated_at|date:"F j, Y" }}
+  </p>
+</div>
+{% endblock %}

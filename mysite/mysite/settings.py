@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'frontsite',
     'crispy_forms',
     'crispy_tailwind',
+    'pages',
 ]
 
 STATICFILES_FINDERS = [
@@ -74,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'pages.context_processors.menu_pages',
             ],
             'loaders':[(
                 'django.template.loaders.cached.Loader', [
@@ -161,3 +163,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'your_email@gmail.com'  # Put your actual Gmail address here
 EMAIL_HOST_PASSWORD = 'your_app_password' # Put your 16-char App Password here
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
