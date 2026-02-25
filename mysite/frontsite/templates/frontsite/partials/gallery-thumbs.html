@@ -1,0 +1,93 @@
+<div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+  {% for image in images %}
+  <div 
+    class="cursor-pointer block overflow-hidden rounded-lg group focus:outline-none focus:ring-2 focus:ring-blue-500 relative"
+    onclick="openModal({{ forloop.counter0 }})"
+    tabindex="0"
+    onkeydown="if(event.key === 'Enter') openModal({{ forloop.counter0 }})"
+  >
+    <img
+      src="{{ image.thumb }}"
+      alt="{{ image.alt }}"
+      class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+      loading="lazy"
+    />
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Custom Tailwind Modal -->
+<div id="lightbox-modal" class="fixed inset-0 z-50 hidden bg-gray-900/95 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="closeModal()">
+  <button class="absolute top-4 right-4 text-gray-300 hover:text-white focus:outline-none" onclick="closeModal()">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+  </button>
+  
+  <!-- Previous Button -->
+  <button class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white focus:outline-none p-2 hover:bg-white/10 rounded-full transition" onclick="prevImage(event)">
+    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+  </button>
+
+  <!-- Next Button -->
+  <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white focus:outline-none p-2 hover:bg-white/10 rounded-full transition" onclick="nextImage(event)">
+    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+  </button>
+
+  <img id="lightbox-image" src="" alt="Full size" class="max-h-[90vh] max-w-full rounded-lg shadow-2xl transition-opacity duration-300" onclick="event.stopPropagation()">
+</div>
+
+<script>
+  var galleryImages = [
+    {% for image in images %}
+      "{{ image.full }}",
+    {% endfor %}
+  ];
+  var currentIndex = 0;
+
+  function openModal(index) {
+    currentIndex = index;
+    const modal = document.getElementById('lightbox-modal');
+    const img = document.getElementById('lightbox-image');
+    img.src = galleryImages[currentIndex];
+    img.classList.remove('opacity-0');
+    modal.classList.remove('hidden');
+    setTimeout(() => modal.classList.remove('opacity-0'), 10);
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('lightbox-modal');
+    modal.classList.add('opacity-0');
+    setTimeout(() => modal.classList.add('hidden'), 300);
+  }
+
+  function changeImage(index) {
+    const img = document.getElementById('lightbox-image');
+    img.classList.add('opacity-0');
+    setTimeout(() => {
+      currentIndex = index;
+      img.onload = () => img.classList.remove('opacity-0');
+      img.src = galleryImages[currentIndex];
+    }, 300);
+  }
+
+  function nextImage(event) {
+    event?.stopPropagation();
+    changeImage((currentIndex + 1) % galleryImages.length);
+  }
+
+  function prevImage(event) {
+    event?.stopPropagation();
+    changeImage((currentIndex - 1 + galleryImages.length) % galleryImages.length);
+  }
+
+  if (!window.galleryKeydownAttached) {
+    document.addEventListener('keydown', function(e) {
+      const modal = document.getElementById('lightbox-modal');
+      if (!modal || modal.classList.contains('hidden')) return;
+      
+      if (e.key === 'ArrowRight') nextImage(e);
+      if (e.key === 'ArrowLeft') prevImage(e);
+      if (e.key === 'Escape') closeModal();
+    });
+    window.galleryKeydownAttached = true;
+  }
+</script>

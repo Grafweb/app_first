@@ -28,14 +28,18 @@ mysite/
 ## Apps
 
 ### frontsite
+
 The main application with:
+
 - Home page with hero section and component examples
 - Contact page with email form (crispy forms)
 - Responsive navigation (desktop + mobile via HTMX)
 - HTMX-powered partials (menu, contact form, hello endpoint)
 
 ### pages (CMS)
+
 Manage site pages from the Django admin:
+
 - **Title** and **slug** (URL auto-generated from title)
 - **Content** - page body text
 - **Featured image** - optional image upload

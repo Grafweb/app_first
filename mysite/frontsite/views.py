@@ -10,6 +10,16 @@ def index(request):
 def hello(request):
     return render(request, 'frontsite/partials/hello.html')
 
+def gallery(request):
+    return render(request, 'frontsite/gallery.html')
+
+def gallery_thumbs(request):
+    images = [
+        {'thumb': f'https://picsum.photos/seed/{i}/400/300', 'full': f'https://picsum.photos/seed/{i}/1200/900', 'alt': f'Gallery image {i}'}
+        for i in range(1, 13)
+    ]
+    return render(request, 'frontsite/partials/gallery-thumbs.html', {'images': images})
+
 def contact(request):
     context = _handle_contact_form(request)
     return render(request, 'frontsite/contact.html', context)
