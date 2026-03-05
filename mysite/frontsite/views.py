@@ -14,10 +14,20 @@ def gallery(request):
     return render(request, 'frontsite/gallery.html')
 
 def gallery_thumbs(request):
-    images = [
-        {'thumb': f'https://picsum.photos/seed/{i}/400/300', 'full': f'https://picsum.photos/seed/{i}/1200/900', 'alt': f'Gallery image {i}'}
-        for i in range(1, 13)
-    ]
+    from gallery.models import Gallery
+    gallery_id = request.GET.get('gallery')
+    if gallery_id:
+        gallery_obj = Gallery.objects.filter(pk=gallery_id).first()
+    else:
+        gallery_obj = Gallery.objects.first()
+
+    if gallery_obj:
+        images = [
+            {'thumb': img.image.url, 'full': img.image.url, 'alt': img.alt or f'Gallery image'}
+            for img in gallery_obj.images.all()
+        ]
+    else:
+        images = []
     return render(request, 'frontsite/partials/gallery-thumbs.html', {'images': images})
 
 def contact(request):

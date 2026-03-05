@@ -7,6 +7,13 @@ class Page(models.Model):
     slug = models.SlugField(unique=True)
     content = models.TextField()
     featured_image = models.ImageField(upload_to='pages/', blank=True, null=True)
+    gallery = models.ForeignKey(
+        'gallery.Gallery',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='pages',
+    )
     meta_description = models.CharField(max_length=160, blank=True)
     is_published = models.BooleanField(default=False)
     show_in_menu = models.BooleanField(default=True)
