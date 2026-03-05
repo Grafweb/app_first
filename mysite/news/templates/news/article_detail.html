@@ -1,0 +1,43 @@
+{% extends "frontsite/base.html" %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+  <a href="{% url 'article_list' %}" class="inline-flex items-center text-blue-400 hover:underline text-sm mb-8">
+    &larr; Back to News
+  </a>
+
+  {% if article.thumbnail %}
+  <img
+    src="{{ article.thumbnail.url }}"
+    alt="{{ article.title }}"
+    class="w-full h-72 object-cover rounded-xl mb-8"
+  />
+  {% endif %}
+
+  <p class="text-blue-400 text-sm font-medium mb-2">{{ article.published_date|date:"F j, Y" }}</p>
+  <h1 class="text-4xl font-bold mb-4">{{ article.title }}</h1>
+  <p class="text-gray-400 text-lg mb-8 border-l-4 border-blue-600 pl-4">{{ article.excerpt }}</p>
+
+  <div class="prose prose-invert max-w-none text-gray-300 leading-relaxed whitespace-pre-line">
+    {{ article.content }}
+  </div>
+</div>
+
+{% if article.gallery %}
+<div class="max-w-6xl mx-auto px-4 mt-10">
+  <h2 class="text-2xl font-bold mb-6">{{ article.gallery.name }}</h2>
+  <div
+    id="gallery-container"
+    hx-get="/gallery-thumbs?gallery={{ article.gallery.pk }}"
+    hx-trigger="load"
+    hx-swap="innerHTML"
+  >
+    <div class="flex justify-center items-center py-20">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

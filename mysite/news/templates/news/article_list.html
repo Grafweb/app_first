@@ -1,0 +1,71 @@
+{% extends "frontsite/base.html" %}
+
+{% block title %}News{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+  <h1 class="text-4xl font-bold mb-10">News</h1>
+
+  {% if page_obj.object_list %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for article in page_obj %}
+    <a href="{{ article.get_absolute_url }}" class="group bg-gray-800 rounded-xl overflow-hidden hover:ring-2 hover:ring-blue-500 transition">
+      {% if article.thumbnail %}
+      <img
+        src="{{ article.thumbnail.url }}"
+        alt="{{ article.title }}"
+        class="w-full h-48 object-cover group-hover:opacity-90 transition"
+      />
+      {% else %}
+      <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+        <span class="text-gray-500 text-4xl">&#128240;</span>
+      </div>
+      {% endif %}
+      <div class="p-5">
+        <p class="text-xs text-blue-400 font-medium mb-2">{{ article.published_date|date:"F j, Y" }}</p>
+        <h2 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition line-clamp-2">{{ article.title }}</h2>
+        <p class="text-gray-400 text-sm line-clamp-3">{{ article.excerpt }}</p>
+        <span class="inline-block mt-4 text-blue-400 text-sm font-medium group-hover:underline">Read more &rarr;</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  {% if page_obj.has_other_pages %}
+  <div class="flex justify-center items-center gap-2 mt-12">
+    {% if page_obj.has_previous %}
+    <a
+      href="?page={{ page_obj.previous_page_number }}"
+      class="px-4 py-2 bg-gray-700 hover:bg-blue-600 rounded-lg transition text-sm"
+    >&larr; Prev</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+      <span class="px-4 py-2 bg-blue-600 rounded-lg text-sm font-bold">{{ num }}</span>
+      {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+      <a
+        href="?page={{ num }}"
+        class="px-4 py-2 bg-gray-700 hover:bg-blue-600 rounded-lg transition text-sm"
+      >{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <a
+      href="?page={{ page_obj.next_page_number }}"
+      class="px-4 py-2 bg-gray-700 hover:bg-blue-600 rounded-lg transition text-sm"
+    >Next &rarr;</a>
+    {% endif %}
+  </div>
+  <p class="text-center text-gray-500 text-xs mt-4">
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} &mdash; {{ page_obj.paginator.count }} articles
+  </p>
+  {% endif %}
+
+  {% else %}
+  <p class="text-gray-400">No news articles published yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

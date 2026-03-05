@@ -18,6 +18,16 @@ class Page(models.Model):
     is_published = models.BooleanField(default=False)
     show_in_menu = models.BooleanField(default=True)
     order = models.IntegerField(default=0)
+    NEWS_DISPLAY_CHOICES = [
+        ('none', 'No news'),
+        ('featured', 'Featured - 3 latest articles'),
+        ('full', 'Full list with pagination'),
+    ]
+    show_news = models.CharField(
+        max_length=20,
+        choices=NEWS_DISPLAY_CHOICES,
+        default='none',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
