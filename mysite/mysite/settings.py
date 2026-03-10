@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'pages',
     'gallery',
     'news',
+    'form_contact',
 ]
 
 STATICFILES_FINDERS = [

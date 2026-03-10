@@ -17,6 +17,7 @@ class Article(models.Model):
     )
     published_date = models.DateField()
     is_published = models.BooleanField(default=False)
+    show_contact_form = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

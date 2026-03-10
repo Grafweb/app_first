@@ -18,4 +18,8 @@ def page_detail(request, slug):
             paginator = Paginator(articles, per_page)
             context['news_page_obj'] = paginator.get_page(request.GET.get('page'))
 
+    if page.show_contact_form:
+        from form_contact.forms import ContactForm
+        context['contact_form'] = ContactForm()
+
     return render(request, 'pages/page_detail.html', context)

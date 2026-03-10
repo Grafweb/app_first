@@ -11,7 +11,7 @@ class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_editable = ['is_published']
     readonly_fields = ['thumbnail_preview']
-    fields = ['title', 'slug', 'thumbnail', 'thumbnail_preview', 'excerpt', 'content', 'gallery', 'published_date', 'is_published']
+    fields = ['title', 'slug', 'thumbnail', 'thumbnail_preview', 'excerpt', 'content', 'gallery', 'published_date', 'is_published', 'show_contact_form']
     date_hierarchy = 'published_date'
 
     def thumbnail_preview(self, obj):

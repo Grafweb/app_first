@@ -14,4 +14,10 @@ def article_list(request):
 
 def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug, is_published=True)
-    return render(request, 'news/article_detail.html', {'article': article})
+    context = {'article': article}
+
+    if article.show_contact_form:
+        from form_contact.forms import ContactForm
+        context['contact_form'] = ContactForm()
+
+    return render(request, 'news/article_detail.html', context)

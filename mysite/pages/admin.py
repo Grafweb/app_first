@@ -10,4 +10,4 @@ class PageAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_editable = ['is_published', 'order']
     fields = ['title', 'slug', 'content', 'featured_image', 'gallery',
-              'meta_description', 'show_news', 'is_published', 'show_in_menu', 'order']
+              'meta_description', 'show_news', 'show_contact_form', 'is_published', 'show_in_menu', 'order']

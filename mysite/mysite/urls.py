@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('news/', include('news.urls')),
     path('pages/', include('pages.urls')),
+    path('form-contact/', include('form_contact.urls')),
     path('', include('frontsite.urls')),
     path('', include('django_components.urls')),
 ]

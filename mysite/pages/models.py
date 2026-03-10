@@ -28,6 +28,7 @@ class Page(models.Model):
         choices=NEWS_DISPLAY_CHOICES,
         default='none',
     )
+    show_contact_form = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
