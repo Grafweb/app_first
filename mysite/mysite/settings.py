@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'gallery',
     'news',
     'form_contact',
+    'slider',
 ]
 
 STATICFILES_FINDERS = [
@@ -79,6 +80,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'pages.context_processors.menu_pages',
+                'slider.context_processors.active_slider',
             ],
             'loaders':[(
                 'django.template.loaders.cached.Loader', [

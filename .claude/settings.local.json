@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(find /c/python_apps/app_first/mysite -type f -name *.css -o -name tailwind.config.js -o -name package.json)"
     ]
   }
 }

@@ -1,0 +1,144 @@
+{% if active_slider and active_slider_images %}
+{% with images=active_slider_images count=active_slider_images|length %}
+
+{% if count == 1 %}
+{# ── Static banner (single image) ── #}
+{% with img=images.0 %}{% with url=img.resolved_link %}
+<div class="w-full">
+  {% if url %}<a href="{{ url }}" target="{{ img.link_target }}"{% if img.link_new_tab %} rel="noopener noreferrer"{% endif %}>{% endif %}
+  <img
+    src="{{ img.image.url }}"
+    alt="{{ img.alt }}"
+    class="w-full h-56 sm:h-72 md:h-96 lg:h-[520px] object-cover block"
+  >
+  {% if url %}</a>{% endif %}
+</div>
+{% endwith %}{% endwith %}
+
+{% else %}
+{# ── Slider (multiple images) ── #}
+<div
+  class="relative w-full overflow-hidden group"
+  id="slider-{{ active_slider.id }}"
+  aria-label="{{ active_slider.name }}"
+>
+  {# Track #}
+  <div
+    class="flex transition-transform duration-500 ease-in-out"
+    id="slider-track-{{ active_slider.id }}"
+  >
+    {% for img in images %}{% with url=img.resolved_link %}
+    <div class="min-w-full flex-shrink-0">
+      {% if url %}<a href="{{ url }}" target="{{ img.link_target }}"{% if img.link_new_tab %} rel="noopener noreferrer"{% endif %}>{% endif %}
+      <img
+        src="{{ img.image.url }}"
+        alt="{{ img.alt }}"
+        class="w-full h-56 sm:h-72 md:h-96 lg:h-[520px] object-cover block"
+      >
+      {% if url %}</a>{% endif %}
+    </div>
+    {% endwith %}{% endfor %}
+  </div>
+
+  {# Prev button #}
+  <button
+    type="button"
+    onclick="sliderMove('{{ active_slider.id }}', -1)"
+    class="absolute left-3 top-1/2 -translate-y-1/2 z-10
+           bg-black/40 hover:bg-black/70 text-white
+           w-10 h-10 rounded-full flex items-center justify-center
+           opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+    aria-label="Previous slide"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+      <path fill-rule="evenodd" d="M15.75 4.5l-7.5 7.5 7.5 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+  </button>
+
+  {# Next button #}
+  <button
+    type="button"
+    onclick="sliderMove('{{ active_slider.id }}', 1)"
+    class="absolute right-3 top-1/2 -translate-y-1/2 z-10
+           bg-black/40 hover:bg-black/70 text-white
+           w-10 h-10 rounded-full flex items-center justify-center
+           opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+    aria-label="Next slide"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+      <path fill-rule="evenodd" d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+  </button>
+
+  {# Dot indicators #}
+  <div
+    class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10"
+    id="slider-dots-{{ active_slider.id }}"
+  >
+    {% for img in images %}
+    <button
+      type="button"
+      onclick="sliderGoTo('{{ active_slider.id }}', {{ forloop.counter0 }})"
+      class="w-2.5 h-2.5 rounded-full transition-colors focus:outline-none {% if forloop.first %}bg-white{% else %}bg-white/40 hover:bg-white/70{% endif %}"
+      aria-label="Go to slide {{ forloop.counter }}"
+    ></button>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+(function () {
+  var id = '{{ active_slider.id }}';
+  var total = {{ count }};
+  var current = 0;
+  var timer;
+
+  function update() {
+    document.getElementById('slider-track-' + id).style.transform =
+      'translateX(-' + current * 100 + '%)';
+    var dots = document.querySelectorAll('#slider-dots-' + id + ' button');
+    dots.forEach(function (dot, i) {
+      dot.className = dot.className.replace(/bg-white(\/\d+)?(\s|$)/g, '');
+      if (i === current) {
+        dot.classList.add('bg-white');
+      } else {
+        dot.classList.add('bg-white/40');
+      }
+    });
+  }
+
+  window['sliderMove'] = window['sliderMove'] || {};
+  window['sliderGoTo'] = window['sliderGoTo'] || {};
+
+  window.sliderMove = function (sid, dir) {
+    if (sid !== id) return;
+    current = (current + dir + total) % total;
+    update();
+    restart();
+  };
+
+  window.sliderGoTo = function (sid, index) {
+    if (sid !== id) return;
+    current = index;
+    update();
+    restart();
+  };
+
+  function autoNext() {
+    current = (current + 1) % total;
+    update();
+  }
+
+  function restart() {
+    clearInterval(timer);
+    timer = setInterval(autoNext, 5000);
+  }
+
+  update();
+  restart();
+})();
+</script>
+{% endif %}
+
+{% endwith %}
+{% endif %}
